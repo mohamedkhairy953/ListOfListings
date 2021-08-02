@@ -7,5 +7,14 @@
     <fragment
         android:id="@+id/listingListFragment"
         android:name="com.khairy.listing_list.presentation.view.ListingListFragment"
-        android:label="News List" />
+         >
+        <action
+            android:id="@+id/action_listingListFragment_to_listingDetailsFragment"
+            app:destination="@id/listingDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/listingDetailsFragment"
+        android:name="com.khairy.listing_details.view.ListingDetailsFragment"
+       />
 </navigation>

@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.khairy.core.helpers.extensions.shouldShow
 import com.khairy.listing_list.R
 import com.khairy.listing_list.databinding.FragmentListingListBinding
@@ -59,7 +62,12 @@ class ListingListFragment : Fragment() {
     }
 
     private fun bindAdapter(list: List<Listing>?) {
-        adapter = ListingListAdapter(list ?: listOf())
+        adapter = ListingListAdapter(list ?: listOf()) { item ->
+            findNavController().navigate(
+                R.id.action_listingListFragment_to_listingDetailsFragment,
+                bundleOf("listing" to Gson().toJson(item))
+            )
+        }
         binding.rvListings.adapter = adapter
     }
 
