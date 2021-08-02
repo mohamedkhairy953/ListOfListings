@@ -39,7 +39,7 @@ class ListingListFragmentTest {
     }
 
     @Test
-    fun a_test_isListFragmentVisible_onAppLaunch() {
+    fun test_isListVisible_onAppLaunch() {
         val launchFragmentInContainer = launchFragmentInContainer<ListingListFragment>()
         launchFragmentInContainer.moveToState(Lifecycle.State.RESUMED)
         onView(withId(R.id.rv_listings)).check(matches(isDisplayed()))
@@ -49,7 +49,7 @@ class ListingListFragmentTest {
 
 
     @Test
-    fun testNavigationToDetailsScreen() {
+    fun test_navigation_to_details() {
         // Create a TestNavHostController
         val navController = TestNavHostController(
             ApplicationProvider.getApplicationContext()
@@ -75,9 +75,3 @@ class ListingListFragmentTest {
 
     }
 }
-
-/*
-  // Verify that performing a click changes the NavController’s state
-        onView(ViewMatchers.withId(R.id.)).perform(ViewActions.click())
-        assertThat(navController.currentDestination?.id).isEqualTo(R.id.in_game)
- */
