@@ -6,7 +6,7 @@ apply from: '../android_test_dependencies.gradle'
 android {
     compileSdkVersion 30
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
         archivesBaseName = "listings-$versionName"
     }
@@ -45,6 +45,11 @@ android {
     android.testOptions {
         unitTests.all {
             useJUnitPlatform()
+        }
+    }
+    configurations.all {
+        resolutionStrategy {
+            exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
         }
     }
 }

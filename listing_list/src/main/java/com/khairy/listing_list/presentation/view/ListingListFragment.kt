@@ -30,13 +30,13 @@ class ListingListFragment : Fragment() {
             inflater.inflate(R.layout.fragment_listing_list, container, false)
         )
         observeViewModel()
-
+        bindAdapter()
         return binding.root
     }
 
     private fun observeViewModel() {
         viewModel.getListingsResultLD.observe(viewLifecycleOwner, {
-            bindAdapter(it.lisitngs)
+            adapter.submitList(it.lisitngs ?: listOf())
         })
 
         viewModel.dataLoading.observe(viewLifecycleOwner, {
@@ -61,13 +61,15 @@ class ListingListFragment : Fragment() {
         })
     }
 
-    private fun bindAdapter(list: List<Listing>?) {
-        adapter = ListingListAdapter(list ?: listOf()) { item ->
-            findNavController().navigate(
-                R.id.action_listingListFragment_to_listingDetailsFragment,
-                bundleOf("listing" to Gson().toJson(item))
-            )
-        }
+    private fun bindAdapter() {
+        adapter = ListingListAdapter(object : ListingListAdapter.Interaction {
+            override fun onItemSelected(item: Listing) {
+                findNavController().navigate(
+                    R.id.action_listingListFragment_to_listingDetailsFragment,
+                    bundleOf("listing" to Gson().toJson(item))
+                )
+            }
+        })
         binding.rvListings.adapter = adapter
     }
 

@@ -8,5 +8,5 @@ fun ListingsResponseDto.toListingResponse(): ListingsResponse {
 }
 
 fun ListingDto.toListing(): Listing {
-    return Listing(price, name, imageIds, imageUrls, imageUrlsThumbs)
+    return Listing(price, name,uid, imageIds, imageUrls, imageUrlsThumbs)
 }

@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 
 public class ListingDetailsFragment extends Fragment {
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

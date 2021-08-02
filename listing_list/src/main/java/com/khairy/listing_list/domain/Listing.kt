@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class Listing(
     val price: String?,
     val name: String?,
+    val uid: String?,
     val imageIds: List<String>?,
     val imageUrls: List<String>?,
     val imageUrlsThumbs: List<String>?,
