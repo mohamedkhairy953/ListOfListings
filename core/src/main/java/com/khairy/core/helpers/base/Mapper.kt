@@ -1,0 +1,10 @@
+package com.khairy.core.helpers.base
+interface Mapper<in FROM, out TO> {
+    fun map(from: FROM): TO
+
+    fun mapToList(froms: List<FROM>): List<TO> {
+        val listTo = mutableListOf<TO>()
+        froms.map { listTo.add(map(it)) }
+        return listTo
+    }
+}

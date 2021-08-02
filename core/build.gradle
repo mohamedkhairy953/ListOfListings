@@ -1,0 +1,12 @@
+apply plugin: 'com.android.library'
+apply from: '../android_commons_configurations.gradle'
+android{
+    buildTypes.each {
+        it.buildConfigField 'String', 'BASE_URL', BASE_URL
+
+    }
+}
+dependencies {
+    api fileTree(dir: "libs", include: ["*.jar"])
+
+}

@@ -1,0 +1,15 @@
+apply plugin: 'com.android.application'
+
+apply from: '../android_commons_configurations.gradle'
+
+android {
+
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':navigation')
+    implementation project(':listing_list')
+    implementation project(':listing_details')
+
+}

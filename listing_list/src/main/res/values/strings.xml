@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="grl_err_no_network">network error</string>
+    <string name="grl_err_server_error">server error</string>
+</resources>

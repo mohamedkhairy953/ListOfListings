@@ -1,0 +1,9 @@
+dependencies {
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.4.2'
+    testImplementation 'io.kotest:kotest-assertions-core-jvm:4.0.7'
+    testImplementation 'io.kotest:kotest-property-jvm:4.0.7'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.0-alpha10'
+}
