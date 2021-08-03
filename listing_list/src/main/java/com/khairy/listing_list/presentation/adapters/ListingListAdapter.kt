@@ -1,5 +1,7 @@
 package com.khairy.listing_list.presentation.adapters
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +9,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.khairy.bit_cacher.BitmapCacher
 import com.khairy.core.test_utils.EspressoIdlingResource
 import com.khairy.listing_list.R
 import com.khairy.listing_list.databinding.ListingItemBinding
@@ -72,11 +77,35 @@ class ListingListAdapter(private val interaction: Interaction? = null) :
             itemView.setOnClickListener {
                 interaction?.onItemSelected(item)
             }
-            Glide.with(binding.root).load(item.imageUrlsThumbs?.first())
-                .into(binding.imageView)
+            val imageKey: String? = item.imageIds?.get(0)
+            val bitmapFromCache = BitmapCacher.getBitmap(imageKey)
+            if (bitmapFromCache != null)
+                binding.imageView.setImageBitmap(bitmapFromCache)
+            else
+                bindWithGlide(item)
+
             binding.tvName.text = item.name
             binding.tvPrice.text = item.price
 
+        }
+
+        private fun bindWithGlide(item: Listing) {
+            Glide.with(binding.root).asBitmap().load(item.imageUrlsThumbs?.first())
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        binding.imageView.setImageBitmap(resource)
+                        item.imageIds?.get(0)?.let {
+                            BitmapCacher.saveBitmap(it, resource)
+                        }
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+
+                    }
+                })
         }
     }
 

@@ -6,11 +6,13 @@ import java.util.ArrayList;
 
 public class Listing {
     @SerializedName("name")
-   private String name;
+    private String name;
     @SerializedName("price")
-    private   String price;
+    private String price;
     @SerializedName("imageUrls")
-    private   ArrayList<String> imageUrls;
+    private ArrayList<String> imageUrls;
+    @SerializedName("imageIds")
+    private ArrayList<String> imageIds;
 
     public String getName() {
         return name;
@@ -34,5 +36,13 @@ public class Listing {
 
     public void setImageUrls(ArrayList<String> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    public ArrayList<String> getImageIds() {
+        return imageIds;
+    }
+
+    public void setImageIds(ArrayList<String> imageIds) {
+        this.imageIds = imageIds;
     }
 }

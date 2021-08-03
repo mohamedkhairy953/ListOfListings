@@ -9,5 +9,7 @@ android {
 dependencies {
     implementation project(":core")
     implementation project(":navigation")
+    implementation project(":bit_cacher")
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
