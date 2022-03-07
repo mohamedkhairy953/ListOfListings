@@ -6,8 +6,8 @@ import com.khairy.core.helpers.base.BaseResponseWrapper
 import com.khairy.core.test_utils.CoroutineTestRule
 import com.khairy.core.test_utils.EspressoIdlingResource
 import com.khairy.core.test_utils.observeOnce
-import com.khairy.listing_list.domain.ListingsResponse
-import com.khairy.listing_list.model.repo.ListingListRepo
+import com.khairy.listing_list.domain.ProductsResponse
+import com.khairy.listing_list.model.repo.ProductsRepo
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -21,8 +21,8 @@ class ListingListViewModelTest {
     @get:Rule
     var coroutinesTestRule = CoroutineTestRule()
 
-    private lateinit var viewModel: ListingListViewModel
-    private lateinit var repo: ListingListRepo
+    private lateinit var viewModel: ProductsViewModel
+    private lateinit var repo: ProductsRepo
     private lateinit var responseBody: BaseResponseWrapper
 
     @Before
@@ -31,7 +31,7 @@ class ListingListViewModelTest {
 
         repo = mockk()
         responseBody = mockk()
-        viewModel = ListingListViewModel(repo)
+        viewModel = ProductsViewModel(repo)
 
     }
 
@@ -43,25 +43,25 @@ class ListingListViewModelTest {
     @Test
     fun `getListingList  successful Response`() {
         runBlockingTest {
-            val listingResp = ListingsResponse(lisitngs = listOf())
+            val listingResp = ProductsResponse(products = listOf())
             val r = getMockedRepo(BaseResponseWrapper.Success(listingResp))
-            viewModel = ListingListViewModel(r)
+            viewModel = ProductsViewModel(r)
             viewModel.getListingList()
-            var responseEntity: ListingsResponse? = null
+            var responseEntity: ProductsResponse? = null
 
             viewModel.getListingsResultLD.observeOnce {
                 responseEntity = it
             }
-            Assert.assertNotEquals(responseEntity?.lisitngs, null)
+            Assert.assertNotEquals(responseEntity?.products, null)
         }
     }
 
     @Test
     fun `getListingList  error showmessage`() {
         runBlockingTest {
-            val listingResp = ListingsResponse(lisitngs = listOf())
+            val listingResp = ProductsResponse(products = listOf())
             val r = getMockedRepo(BaseResponseWrapper.Failed("error"))
-            viewModel = ListingListViewModel(r)
+            viewModel = ProductsViewModel(r)
             viewModel.getListingList()
             var responseEntity: String? = null
 
@@ -76,9 +76,9 @@ class ListingListViewModelTest {
     @Test
     fun `getListingList  error network`() {
         runBlockingTest {
-            val listingResp = ListingsResponse(lisitngs = listOf())
+            val listingResp = ProductsResponse(products = listOf())
             val r = getMockedRepo(BaseResponseWrapper.NetworkError)
-            viewModel = ListingListViewModel(r)
+            viewModel = ProductsViewModel(r)
             viewModel.getListingList()
             var responseEntity: Boolean? = null
 
@@ -92,9 +92,9 @@ class ListingListViewModelTest {
     @Test
     fun `getListingList  server error`() {
         runBlockingTest {
-            val listingResp = ListingsResponse(lisitngs = listOf())
+            val listingResp = ProductsResponse(products = listOf())
             val r = getMockedRepo(BaseResponseWrapper.ServerError)
-            viewModel = ListingListViewModel(r)
+            viewModel = ProductsViewModel(r)
             viewModel.getListingList()
             var responseEntity: Boolean? = null
 
@@ -105,9 +105,9 @@ class ListingListViewModelTest {
         }
     }
 
-    private fun getMockedRepo(response: BaseResponseWrapper): ListingListRepo {
+    private fun getMockedRepo(response: BaseResponseWrapper): ProductsRepo {
         return mockk {
-            io.mockk.coEvery { getListings() } returns response
+            io.mockk.coEvery { fetchProducts() } returns response
         }
     }
 }

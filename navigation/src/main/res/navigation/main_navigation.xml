@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/listingListFragment"
-        android:name="com.khairy.listing_list.presentation.view.ListingListFragment"
+        android:name="com.khairy.listing_list.presentation.view.ProductsFragment"
          >
         <action
             android:id="@+id/action_listingListFragment_to_listingDetailsFragment"

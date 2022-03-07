@@ -15,18 +15,18 @@ import com.khairy.bit_cacher.BitmapCacher
 import com.khairy.core.test_utils.EspressoIdlingResource
 import com.khairy.listing_list.R
 import com.khairy.listing_list.databinding.ListingItemBinding
-import com.khairy.listing_list.domain.Listing
+import com.khairy.listing_list.domain.Product
 
-class ListingListAdapter(private val interaction: Interaction? = null) :
+class ProductsAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Listing>() {
+    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Product>() {
 
-        override fun areItemsTheSame(oldItem: Listing, newItem: Listing): Boolean {
-            return oldItem.uid == newItem.uid
+        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Listing, newItem: Listing): Boolean {
+        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem == newItem
         }
 
@@ -58,7 +58,7 @@ class ListingListAdapter(private val interaction: Interaction? = null) :
         return differ.currentList.size
     }
 
-    fun submitList(list: List<Listing>) {
+    fun submitList(list: List<Product>) {
         EspressoIdlingResource.increment()
         val dataCommitCallback = Runnable {
             EspressoIdlingResource.decrement()
@@ -73,11 +73,11 @@ class ListingListAdapter(private val interaction: Interaction? = null) :
     ) : RecyclerView.ViewHolder(itemView) {
         private val binding = ListingItemBinding.bind(itemView)
 
-        fun bind(item: Listing) = with(itemView) {
+        fun bind(item: Product) = with(itemView) {
             itemView.setOnClickListener {
                 interaction?.onItemSelected(item)
             }
-            val imageKey: String? = item.imageIds?.get(0)
+            val imageKey: String? = item.image
             val bitmapFromCache = BitmapCacher.getBitmap(imageKey)
             if (bitmapFromCache != null)
                 binding.imageView.setImageBitmap(bitmapFromCache)
@@ -85,19 +85,19 @@ class ListingListAdapter(private val interaction: Interaction? = null) :
                 bindWithGlide(item)
 
             binding.tvName.text = item.name
-            binding.tvPrice.text = item.price
+            binding.tvPrice.text = item.currentPrice.toString()
 
         }
 
-        private fun bindWithGlide(item: Listing) {
-            Glide.with(binding.root).asBitmap().load(item.imageUrlsThumbs?.first())
+        private fun bindWithGlide(item: Product) {
+            Glide.with(binding.root).asBitmap().load(item.image)
                 .into(object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
                     ) {
                         binding.imageView.setImageBitmap(resource)
-                        item.imageIds?.get(0)?.let {
+                        item.image?.let {
                             BitmapCacher.saveBitmap(it, resource)
                         }
                     }
@@ -110,6 +110,6 @@ class ListingListAdapter(private val interaction: Interaction? = null) :
     }
 
     interface Interaction {
-        fun onItemSelected(item: Listing)
+        fun onItemSelected(item: Product)
     }
 }

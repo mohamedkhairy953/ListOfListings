@@ -15,7 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.khairy.core.test_utils.EspressoIdlingResource
 import com.khairy.listing_list.R
-import com.khairy.listing_list.presentation.adapters.ListingListAdapter
+import com.khairy.listing_list.presentation.adapters.ProductsAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.core.IsNot.not
 import org.junit.After
@@ -40,7 +40,7 @@ class ListingListFragmentTest {
 
     @Test
     fun test_isListVisible_onAppLaunch() {
-        val launchFragmentInContainer = launchFragmentInContainer<ListingListFragment>()
+        val launchFragmentInContainer = launchFragmentInContainer<ProductsFragment>()
         launchFragmentInContainer.moveToState(Lifecycle.State.RESUMED)
         onView(withId(R.id.rv_listings)).check(matches(isDisplayed()))
 
@@ -56,7 +56,7 @@ class ListingListFragmentTest {
         )
 
         // Create a graphical FragmentScenario for the TitleScreen
-        val fs = launchFragmentInContainer<ListingListFragment>()
+        val fs = launchFragmentInContainer<ProductsFragment>()
 
         fs.onFragment { fragment ->
             // Set the graph on the TestNavHostController
@@ -66,7 +66,7 @@ class ListingListFragmentTest {
         }
         onView(withId(R.id.rv_listings))
             .perform(
-                RecyclerViewActions.actionOnItemAtPosition<ListingListAdapter.ListingViewHolder>(
+                RecyclerViewActions.actionOnItemAtPosition<ProductsAdapter.ListingViewHolder>(
                     1,
                     ViewActions.click()
                 )

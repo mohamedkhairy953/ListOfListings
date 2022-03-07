@@ -2,16 +2,16 @@ package com.khairy.listing_list.model.repo
 
 import com.khairy.core.helpers.base.BaseResponseWrapper
 import com.khairy.listing_list.domain.toListingResponse
-import com.khairy.listing_list.model.remote.ListingListWebService
+import com.khairy.listing_list.model.remote.ProductsWebServices
 import retrofit2.HttpException
 import java.io.IOException
 
-class ListingListRepo constructor(private val webService: ListingListWebService) {
+class ProductsRepo constructor(private val webService: ProductsWebServices) {
 
-    suspend fun getListings(): BaseResponseWrapper {
+    suspend fun fetchProducts(): BaseResponseWrapper {
       return  try {
-            val allListings = webService.getAllListings()
-            BaseResponseWrapper.Success(allListings.toListingResponse())
+            val resp = webService.fetchProducts()
+            BaseResponseWrapper.Success(resp.toListingResponse())
         } catch (e: HttpException) {
             BaseResponseWrapper.Failed(e.message())
         } catch (e: IOException) {

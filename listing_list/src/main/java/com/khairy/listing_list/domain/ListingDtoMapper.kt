@@ -1,12 +1,15 @@
 package com.khairy.listing_list.domain
 
-import com.khairy.listing_list.model.response.ListingDto
-import com.khairy.listing_list.model.response.ListingsResponseDto
+import com.khairy.listing_list.model.response.ProductsResponseDto
+import com.khairy.listing_list.model.response.ProductDto
 
-fun ListingsResponseDto.toListingResponse(): ListingsResponse {
-    return ListingsResponse(lisitngs = lisitngs?.map { it.toListing() })
+fun ProductsResponseDto.toListingResponse(): ProductsResponse {
+    return ProductsResponse(products = products?.map { it.toProduct() })
 }
 
-fun ListingDto.toListing(): Listing {
-    return Listing(price, name,uid, imageIds, imageUrls, imageUrlsThumbs)
+fun ProductDto.toProduct(): Product {
+    return Product(
+        brand, id, image,
+        isActive, name, price?.current, price?.original, price?.currency
+    )
 }
