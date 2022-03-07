@@ -1,6 +1,8 @@
 package com.khairy.listing_list.presentation.view
 
+import android.net.TrafficStats
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +38,7 @@ class ListingListFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.getListingsResultLD.observe(viewLifecycleOwner, {
+            Log.d("TAG", "observeViewModel: ${TrafficStats.getTotalRxBytes()/(1024*1024 )}")
             adapter.submitList(it.lisitngs ?: listOf())
         })
 
