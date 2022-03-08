@@ -20,14 +20,14 @@ import java.util.concurrent.TimeUnit
 
 val networkModule = module {
     single { provideHttpLoggingInterceptor() }
-    single { provideServiceInterceptor() }
+    single { provideServiceInterceptor(androidContext()) }
     single { provideOkHttpClient(get(), get(),androidContext()) }
     single { provideGson() }
     single { provideRetrofit(get(), get()) }
 }
 
-fun provideServiceInterceptor(): MyServiceInterceptor {
-    return MyServiceInterceptor()
+fun provideServiceInterceptor(context: Context): MyServiceInterceptor {
+    return MyServiceInterceptor(context)
 }
 
 

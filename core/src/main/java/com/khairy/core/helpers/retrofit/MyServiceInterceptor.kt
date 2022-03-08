@@ -1,4 +1,7 @@
 package com.khairy.core.helpers.retrofit
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -12,7 +15,7 @@ import okhttp3.Response
  * language headers from prefs
  */
 class MyServiceInterceptor
-internal constructor() : Interceptor {
+internal constructor(private val context: Context) : Interceptor {
     private var requestBuilder: Request.Builder? = null
 
     @Throws(Exception::class)
@@ -20,6 +23,14 @@ internal constructor() : Interceptor {
         val request = chain.request()
 
         requestBuilder = request.newBuilder()
+        if (hasNetwork(context)!!)
+            requestBuilder?.header("Cache-Control", "public, max-age=" + 5)
+        else
+            requestBuilder?.header(
+                "Cache-Control",
+                "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
+            )
+
 
         requestBuilder!!.addHeader("Content-Type", "application/json")
         addLanguageHeader()
@@ -27,6 +38,16 @@ internal constructor() : Interceptor {
 
         return chain.proceed(requestBuilder!!.build())
 
+    }
+
+    private fun hasNetwork(context: Context): Boolean? {
+        var isConnected: Boolean? = false // Initial Value
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+        if (activeNetwork != null && activeNetwork.isConnected)
+            isConnected = true
+        return isConnected
     }
 
     private fun addLanguageHeader() {
